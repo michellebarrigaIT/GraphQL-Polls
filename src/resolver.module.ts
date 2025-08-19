@@ -4,6 +4,6 @@ import { Resolver, Query } from '@nestjs/graphql';
 export class AppResolver {
   @Query(() => String)
   hello(): string {
-    return 'Hola desde GraphQL con NestJS';
+    return 'Hola desde GraphQL con NestJS y TypeORM!';
   }
 }
