@@ -26,4 +26,5 @@ import { Option } from "src/options/entities/option.entity";
     }),
   ],
 })
+
 export class DatabaseModule {}
