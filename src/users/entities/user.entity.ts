@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Poll } from '../../polls/entities/poll.entity';
-import { Vote } from '../../votes/vote.entity';
+import { Vote } from '../../votes/entities/vote.entity';
 @ObjectType()
 @Entity('users')
 export class User {

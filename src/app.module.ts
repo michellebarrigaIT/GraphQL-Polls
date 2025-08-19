@@ -7,6 +7,7 @@ import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { OptionsModule } from './options/options.module';
 import { PollsModule } from './polls/polls.module';
+import { VotesModule } from './votes/votes.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PollsModule } from './polls/polls.module';
     UsersModule,
     OptionsModule,
     PollsModule,
+    VotesModule,
   ],
   providers: [AppResolver],
 })

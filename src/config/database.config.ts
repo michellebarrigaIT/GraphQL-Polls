@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Poll } from "src/polls/entities/poll.entity";
 import { User } from "src/users/entities/user.entity";
-import { Vote } from "src/votes/vote.entity";
+import { Vote } from "src/votes/entities/vote.entity";
 import { Option } from "src/options/entities/option.entity";
 
 @Module({
