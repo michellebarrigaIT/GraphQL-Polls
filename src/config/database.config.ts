@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Poll } from "src/polls/poll.entity";
-import { User } from "src/users/user.entity";
+import { User } from "src/users/entities/user.entity";
 import { Vote } from "src/votes/vote.entity";
 import { Option } from "src/options/option.entity";
 
