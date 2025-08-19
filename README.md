@@ -96,3 +96,32 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+# To Do
+## Requirements
+### Queries
+- Get all polls.
+- Get a poll by id with its options and votes count.
+- Get user info by id with the polls that he created and votes he made.
+### Mutations
+- Create a new user.
+- Create a new poll with options.
+- Vote for an option in a poll (only once per poll per user).
+### Subscriptions
+- Subscribe to vote updates on a poll.
+- Subscription should return updated vote counts in real time.
+- For example:
+```typescript
+type Subscription {
+  onVote(pollId: ID!): PollUpdate!
+}
+```
+## Rules
+- Each poll must have at least 2 options. For creation
+- A user can only vote once per poll.
+- If a user tries to vote again, update the vote to the new option.
+## Tests
+- Unit tests for resolvers (Bonus)
+## API Docs
+- Provide GraphQL schema documentation using tools like Apollo Sandbox, GraphiQL, or GraphQL Playground.
+
