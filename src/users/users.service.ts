@@ -19,18 +19,26 @@ export class UsersService {
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(userId: number) {
+    return this.usersRepository.findOne({ where: { userId: userId } });
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(userId: number, updateUserInput: UpdateUserInput) {
+    await this.usersRepository.update(userId, updateUserInput);
+
+    const updatedUser = await this.usersRepository.findOne({ where: { userId: userId } });
+
+    if (!updatedUser) {
+      throw new Error(`User with id ${userId} not found`);
+    }
+
+    return updatedUser;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(userId: number) {
+    return this.usersRepository.delete(userId);
   }
 }

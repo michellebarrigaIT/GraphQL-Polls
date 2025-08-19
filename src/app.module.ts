@@ -15,7 +15,8 @@ import { VotesModule } from './votes/votes.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), '/schema.gql'),
-      playground: true,
+      playground: false,
+      graphiql: true,
     }),
     UsersModule,
     OptionsModule,
