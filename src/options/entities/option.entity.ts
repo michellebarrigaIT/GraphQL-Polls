@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Poll } from '../../polls/poll.entity';
+import { Poll } from '../../polls/entities/poll.entity';
 import { Vote } from '../../votes/vote.entity';
 
 @ObjectType()
