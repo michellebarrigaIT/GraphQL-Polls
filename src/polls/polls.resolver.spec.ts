@@ -18,6 +18,14 @@ describe('PollsResolver', () => {
           provide: 'OptionRepository',
           useValue: {},
         },
+        {
+          provide: 'UserRepository',
+          useValue: {},
+        },
+        {
+          provide: 'VoteRepository',
+          useValue: {},
+        }
       ],
     }).compile();
 

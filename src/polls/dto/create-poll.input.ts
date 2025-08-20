@@ -1,5 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { CreateOptionInput } from 'src/options/dto/create-option.input';
+import { CreateOptionInput } from '../../options/dto/create-option.input';
 
 @InputType()
 export class CreatePollInput {

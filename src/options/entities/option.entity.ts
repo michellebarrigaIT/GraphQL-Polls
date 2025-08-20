@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, Int } from '@nestjs/graphql';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Poll } from '../../polls/entities/poll.entity';
 import { Vote } from '../../votes/entities/vote.entity';
@@ -21,4 +21,7 @@ export class Option {
   @OneToMany(() => Vote, vote => vote.option)
   @Field(() => [Vote])
   votes: Vote[];
+
+  @Field(() => Int)
+  votesCount: number;
 }

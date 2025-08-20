@@ -17,6 +17,14 @@ describe('PollsService', () => {
           provide: 'OptionRepository',
           useValue: {},
         },
+        {
+          provide: 'UserRepository',
+          useValue: {},
+        },
+        {
+          provide: 'VoteRepository',
+          useValue: {},
+        },
       ],
     }).compile();
 

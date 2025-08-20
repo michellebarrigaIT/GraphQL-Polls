@@ -4,8 +4,7 @@ import { UpdatePollInput } from './dto/update-poll.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Poll } from './entities/poll.entity';
 import { Repository } from 'typeorm';
-import { OptionsService } from 'src/options/options.service';
-import { Option } from 'src/options/entities/option.entity';
+import { Option } from '../options/entities/option.entity';
 import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
@@ -47,14 +46,28 @@ export class PollsService {
     return this.pollsRepository.find({ relations: ['options'] });
   }
 
-  async findOne(pollId: number): Promise<Poll> {
-    const poll = await this.pollsRepository.findOne({ where: { pollId: pollId }, relations: ['options'] });
+  async findOne(pollId: number): Promise<Poll & { options: (Option & { votesCount: number })[] }> {
+    const poll = await this.pollsRepository
+      .createQueryBuilder('poll')
+      .leftJoinAndSelect('poll.options', 'option')
+      .leftJoinAndSelect('option.votes', 'vote')
+      .where('poll.pollId = :pollId', { pollId })
+      .getOne();
 
     if (!poll) {
       throw new Error(`Poll with ID ${pollId} not found`);
     }
 
-    return poll;
+    // Agregar conteo de votos por opción
+    const optionsWithVotes = poll.options.map(option => ({
+      ...option,
+      votesCount: option.votes.length,
+    }));
+
+    return {
+      ...poll,
+      options: optionsWithVotes,
+    };
   }
 
   update(id: number, updatePollInput: UpdatePollInput) {

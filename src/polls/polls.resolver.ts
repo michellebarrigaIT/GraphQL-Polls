@@ -3,8 +3,6 @@ import { PollsService } from './polls.service';
 import { Poll } from './entities/poll.entity';
 import { CreatePollInput } from './dto/create-poll.input';
 import { UpdatePollInput } from './dto/update-poll.input';
-import { OptionsService } from 'src/options/options.service';
-import { Repository } from 'typeorm';
 import { Option } from 'src/options/entities/option.entity';
 
 @Resolver(() => Poll)
