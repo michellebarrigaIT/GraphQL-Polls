@@ -39,4 +39,73 @@ type Poll {
 
 type Query {
   hello: String!
+  users: [User!]!
+  user(id: Int!): User!
+  options: [Option!]!
+  option(id: Int!): Option!
+  polls: [Poll!]!
+  poll(pollId: Int!): Poll!
+  votes: [Vote!]!
+  vote(id: Int!): Vote!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createOption(createOptionInput: CreateOptionInput!): Option!
+  updateOption(updateOptionInput: UpdateOptionInput!): Option!
+  removeOption(id: Int!): Option!
+  createPoll(createPollInput: CreatePollInput!): Poll!
+  updatePoll(updatePollInput: UpdatePollInput!): Poll!
+  removePoll(id: Int!): Poll!
+  createVote(createVoteInput: CreateVoteInput!): Vote!
+  updateVote(updateVoteInput: UpdateVoteInput!): Vote!
+  removeVote(id: Int!): Vote!
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+}
+
+input UpdateUserInput {
+  username: String
+  email: String
+  userId: Int!
+}
+
+input CreateOptionInput {
+  text: String!
+}
+
+input UpdateOptionInput {
+  text: String
+  id: Int!
+}
+
+input CreatePollInput {
+  title: String!
+  description: String
+  userId: Int!
+  options: [CreateOptionInput!]!
+}
+
+input UpdatePollInput {
+  title: String
+  description: String
+  userId: Int
+  options: [CreateOptionInput!]
+  pollId: Int!
+}
+
+input CreateVoteInput {
+  userId: Int!
+  optionId: Int!
+}
+
+input UpdateVoteInput {
+  userId: Int
+  optionId: Int
+  id: Int!
 }

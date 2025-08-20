@@ -9,8 +9,8 @@ export class VotesResolver {
   constructor(private readonly votesService: VotesService) {}
 
   @Mutation(() => Vote)
-  createVote(@Args('createVoteInput') createVoteInput: CreateVoteInput) {
-    return this.votesService.create(createVoteInput);
+  async createVote(@Args('createVoteInput') createVoteInput: CreateVoteInput) {
+    return await this.votesService.create(createVoteInput);
   }
 
   @Query(() => [Vote], { name: 'votes' })
@@ -19,8 +19,8 @@ export class VotesResolver {
   }
 
   @Query(() => Vote, { name: 'vote' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.votesService.findOne(id);
+  async findOne(@Args('id', { type: () => Int }) id: number) {
+    return await this.votesService.findOne(id);
   }
 
   @Mutation(() => Vote)

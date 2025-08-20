@@ -7,7 +7,22 @@ describe('VotesResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [VotesResolver, VotesService],
+      providers: [
+        VotesResolver,
+        VotesService,
+        {
+          provide: 'VoteRepository',
+          useValue: {},
+        },
+        {
+          provide: 'UserRepository',
+          useValue: {},
+        },
+        {
+          provide: 'OptionRepository',
+          useValue: {},
+        }
+      ],
     }).compile();
 
     resolver = module.get<VotesResolver>(VotesResolver);
