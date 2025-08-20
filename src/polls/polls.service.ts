@@ -47,8 +47,14 @@ export class PollsService {
     return this.pollsRepository.find({ relations: ['options'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} poll`;
+  async findOne(pollId: number): Promise<Poll> {
+    const poll = await this.pollsRepository.findOne({ where: { pollId: pollId }, relations: ['options'] });
+
+    if (!poll) {
+      throw new Error(`Poll with ID ${pollId} not found`);
+    }
+
+    return poll;
   }
 
   update(id: number, updatePollInput: UpdatePollInput) {

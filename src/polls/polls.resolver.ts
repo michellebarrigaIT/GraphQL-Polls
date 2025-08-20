@@ -25,8 +25,8 @@ export class PollsResolver {
   }
 
   @Query(() => Poll, { name: 'poll' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.pollsService.findOne(id);
+  async findOne(@Args('pollId', { type: () => Int }) pollId: number) {
+    return await this.pollsService.findOne(pollId);
   }
 
   @Mutation(() => Poll)
