@@ -1,7 +1,17 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
+import { CreateOptionInput } from 'src/options/dto/create-option.input';
 
 @InputType()
 export class CreatePollInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  title: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field(() => Int)
+  userId: number;
+
+  @Field(() => [CreateOptionInput])
+  options: CreateOptionInput[];
 }

@@ -7,7 +7,14 @@ describe('OptionsResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OptionsResolver, OptionsService],
+      providers: [
+        OptionsResolver, 
+        OptionsService,
+        {
+          provide: 'OptionRepository',
+          useValue: {},
+        },
+      ],
     }).compile();
 
     resolver = module.get<OptionsResolver>(OptionsResolver);

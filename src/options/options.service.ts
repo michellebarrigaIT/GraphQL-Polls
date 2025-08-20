@@ -1,11 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOptionInput } from './dto/create-option.input';
 import { UpdateOptionInput } from './dto/update-option.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Option } from './entities/option.entity';
 
 @Injectable()
 export class OptionsService {
+
+  constructor(
+    @InjectRepository(Option)
+    private readonly optionsRepository: Repository<Option>,
+  ) {}
+
   create(createOptionInput: CreateOptionInput) {
-    return 'This action adds a new option';
+    // Remove or transform 'votes' if it's a number, as Option expects an array/object
+    //const { votes, ...rest } = createOptionInput;
+    const option = this.optionsRepository.create(createOptionInput);
+    return this.optionsRepository.save(option);
   }
 
   findAll() {
