@@ -43,10 +43,8 @@ export class PollsService {
     return savedPoll;
   }
 
-
-
-  findAll() {
-    return `This action returns all polls`;
+  async findAll(): Promise<Poll[]>{
+    return this.pollsRepository.find({ relations: ['options'] });
   }
 
   findOne(id: number) {

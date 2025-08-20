@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PollsService } from './polls.service';
+import { Poll } from 'src/polls/entities/poll.entity';
 
 describe('PollsService', () => {
   let service: PollsService;
@@ -10,6 +11,10 @@ describe('PollsService', () => {
         PollsService,
         {
           provide: 'PollRepository',
+          useValue: {},
+        },
+        {
+          provide: 'OptionRepository',
           useValue: {},
         },
       ],

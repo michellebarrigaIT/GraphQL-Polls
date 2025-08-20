@@ -20,8 +20,8 @@ export class PollsResolver {
   }
 
   @Query(() => [Poll], { name: 'polls' })
-  findAll() {
-    return this.pollsService.findAll();
+  async findAll() {
+    return await this.pollsService.findAll();
   }
 
   @Query(() => Poll, { name: 'poll' })
