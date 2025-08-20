@@ -1,12 +1,15 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
 import { PollsService } from './polls.service';
 import { Poll } from './entities/poll.entity';
 import { CreatePollInput } from './dto/create-poll.input';
 import { UpdatePollInput } from './dto/update-poll.input';
 import { Option } from 'src/options/entities/option.entity';
+import { PubSub } from 'graphql-subscriptions';
+import { PollUpdate } from './dto/poll-update.susbcription';
 
 @Resolver(() => Poll)
 export class PollsResolver {
+  private pubSub = new PubSub();
   constructor(
     private readonly pollsService: PollsService,
   ) {}
@@ -35,5 +38,12 @@ export class PollsResolver {
   @Mutation(() => Poll)
   removePoll(@Args('id', { type: () => Int }) id: number) {
     return this.pollsService.remove(id);
+  }
+
+  @Subscription(() => PollUpdate, {
+    filter: (payload, variables) => payload.onVote.pollId === variables.pollId,
+  })
+  onVote(@Args('pollId', { type: () => Int }) pollId: number) {
+    return this.pubSub.asyncIterableIterator('voteAdded');
   }
 }

@@ -6,10 +6,11 @@ import { Repository } from 'typeorm';
 import { Vote } from './entities/vote.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Option } from 'src/options/entities/option.entity';
+import { PubSub } from 'graphql-subscriptions';
 
 @Injectable()
 export class VotesService {
-
+  private pubSub = new PubSub();
   constructor(
     @InjectRepository(Vote)
     private readonly votesRepository: Repository<Vote>,
@@ -23,7 +24,23 @@ export class VotesService {
 
     const savedVote = await this.votesRepository.save(vote);
 
-    return await this.votesRepository.findOne({ where: { voteId: savedVote.voteId }, relations: ['user', 'option'] });
+    const voteWithRelations = await this.votesRepository.findOne({
+      where: { voteId: savedVote.voteId },
+      relations: ['user', 'option']
+    });
+    if (!voteWithRelations) {
+      throw new Error(`Vote with ID ${savedVote.voteId} not found`);
+    }
+    // Emitir evento de suscripción
+    this.pubSub.publish('voteAdded', { 
+      onVote: { 
+        pollId: voteWithRelations.option.poll.pollId,
+        optionId: voteWithRelations.option.optionId,
+        votesCount: voteWithRelations.option.votes.length + 1 
+      }
+    });
+
+    return voteWithRelations;
   }
 
   findAll() {

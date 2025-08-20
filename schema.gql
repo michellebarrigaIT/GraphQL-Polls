@@ -38,6 +38,12 @@ type Poll {
   options: [Option!]!
 }
 
+type PollUpdate {
+  pollId: Int!
+  optionId: Int!
+  votesCount: Int!
+}
+
 type Query {
   hello: String!
   users: [User!]!
@@ -109,4 +115,8 @@ input UpdateVoteInput {
   userId: Int
   optionId: Int
   id: Int!
+}
+
+type Subscription {
+  onVote(pollId: Int!): PollUpdate!
 }

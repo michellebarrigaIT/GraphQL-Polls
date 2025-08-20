@@ -17,6 +17,9 @@ import { VotesModule } from './votes/votes.module';
       autoSchemaFile: join(process.cwd(), '/schema.gql'),
       playground: false,
       graphiql: true,
+      subscriptions: {
+        'graphql-ws': true,
+      },
     }),
     UsersModule,
     OptionsModule,
