@@ -22,8 +22,21 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOne(userId: number) {
-    return this.usersRepository.findOne({ where: { userId: userId } });
+  async findOne(userId: number): Promise<User> {
+    const user = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.polls', 'createdPolls')
+      .leftJoinAndSelect('user.votes', 'vote')
+      .leftJoinAndSelect('vote.option', 'option')
+      .leftJoinAndSelect('option.poll', 'votedPoll')
+      .where('user.userId = :userId', { userId })
+      .getOne();
+
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+
+    return user;
   }
 
   async update(userId: number, updateUserInput: UpdateUserInput) {
