@@ -179,4 +179,63 @@ query {
   }
 }
 ```
+### Mutations
+- Create a new user.
+```typescript
+mutation{
+  createUser(createUserInput:{
+    username: "michelle"
+    email: "michelle@gmail.com"
+  }){
+    userId
+    username
+  }
+}
+```
 
+- Create a new poll with options.
+```typescript
+mutation {
+  createPoll(createPollInput: {
+    userId: 1
+    title: "¿Cuál es tu color favorito?"
+    description: "Encuesta sobre colores"
+    options: [
+      { text: "Rojo" }
+      { text: "Verde" }
+      { text: "Amarillo" }
+      { text: "Azul" }
+      { text: "Negro" }
+    ]
+  }) {
+    pollId
+    title
+    options {
+      optionId
+      text
+    }
+  }
+}
+```
+
+- Vote for an option in a poll (only once per poll per user).
+```typescript
+mutation {
+  createVote(createVoteInput:{
+    userId: 2
+    optionId: 4
+  }){
+    user{
+      username
+    }
+    option{
+      text
+    }
+  }
+}
+```
+
+### Subscriptions
+- Subscribe to vote updates on a poll.
+
+- Subscription should return updated vote counts in real time.
