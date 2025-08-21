@@ -79,14 +79,14 @@ export class VotesService {
     return updatedVote;
   }
 
-  remove(voteId: number) {
+  async remove(voteId: number): Promise<{ message: string }> {
     const vote = this.votesRepository.findOne({ where: { voteId } });
-    
+
     if (!vote) {
       throw new Error(`Vote with ID ${voteId} not found`);
-    }
-
-    return this.votesRepository.delete(voteId);
+    } 
+    await this.votesRepository.delete(voteId);
+    return { message: `Vote with ID ${voteId} successfully deleted` };
   }
 
   private async checkIfUserHasVoted(userId: number, optionId: number): Promise<boolean> {

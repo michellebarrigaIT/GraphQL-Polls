@@ -3,6 +3,7 @@ import { VotesService } from './votes.service';
 import { Vote } from './entities/vote.entity';
 import { CreateVoteInput } from './dto/create-vote.input';
 import { UpdateVoteInput } from './dto/update-vote.input';
+import { RemoveVoteOutput } from './dto/remove-vote.output';
 
 @Resolver(() => Vote)
 export class VotesResolver {
@@ -28,8 +29,8 @@ export class VotesResolver {
     return this.votesService.update(updateVoteInput.voteId, updateVoteInput);
   }
 
-  @Mutation(() => Vote)
-  removeVote(@Args('id', { type: () => Int }) id: number) {
-    return this.votesService.remove(id);
+  @Mutation(() => RemoveVoteOutput)
+  removeVote(@Args('voteId', { type: () => Int }) voteId: number): Promise<RemoveVoteOutput> {
+    return this.votesService.remove(voteId);
   }
 }
