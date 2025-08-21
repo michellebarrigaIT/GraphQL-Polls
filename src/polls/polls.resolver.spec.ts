@@ -25,7 +25,11 @@ describe('PollsResolver', () => {
         {
           provide: 'VoteRepository',
           useValue: {},
-        }
+        },
+        {
+          provide: 'PUB_SUB',
+          useValue: {},
+        },
       ],
     }).compile();
 

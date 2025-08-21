@@ -19,7 +19,11 @@ describe('VotesService', () => {
         {
           provide: 'OptionRepository',
           useValue: {},
-        }
+        },
+        {
+          provide: 'PUB_SUB',
+          useValue: {},
+        },
       ],
     }).compile();
 

@@ -4,14 +4,16 @@ import { Poll } from './entities/poll.entity';
 import { CreatePollInput } from './dto/create-poll.input';
 import { UpdatePollInput } from './dto/update-poll.input';
 import { Option } from 'src/options/entities/option.entity';
-import { PubSub } from 'graphql-subscriptions';
 import { PollUpdate } from './dto/poll-update.susbcription';
+import { Inject } from '@nestjs/common';
+import { PubSub } from 'graphql-subscriptions';
 
 @Resolver(() => Poll)
 export class PollsResolver {
-  private pubSub = new PubSub();
+
   constructor(
     private readonly pollsService: PollsService,
+    @Inject('PUB_SUB') private pubSub: PubSub,
   ) {}
 
   @Mutation(() => Poll)
