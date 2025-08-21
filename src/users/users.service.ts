@@ -51,7 +51,14 @@ export class UsersService {
     return updatedUser;
   }
 
-  remove(userId: number) {
-    return this.usersRepository.delete(userId);
+  async remove(userId: number): Promise<{ message: string }> {
+    const user =  await this.usersRepository.findOne({ where: { userId } });
+    console.log(user);
+    if (!user) {
+      throw new Error(`User with id ${userId} not found`);
+    } else {
+      this.usersRepository.delete(userId);
+      return { message: `User with id ${userId} successfully deleted` };
+    }
   }
 }

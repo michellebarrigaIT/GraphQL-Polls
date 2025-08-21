@@ -40,6 +40,10 @@ type Poll {
   options: [Option!]!
 }
 
+type RemoveUserOutput {
+  message: String!
+}
+
 type PollUpdate {
   pollId: Int!
   optionId: Int!
@@ -61,7 +65,7 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser(userId: Int!): RemoveUserOutput!
   updateOption(updateOptionInput: UpdateOptionInput!): Option!
   removeOption(id: Int!): Option!
   createPoll(createPollInput: CreatePollInput!): Poll!

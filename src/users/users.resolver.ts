@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { RemoveUserOutput } from './dto/remove-user.output';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -28,8 +29,8 @@ export class UsersResolver {
     return this.usersService.update(updateUserInput.userId, updateUserInput);
   }
 
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.usersService.remove(id);
+  @Mutation(() => RemoveUserOutput)
+  async removeUser(@Args('userId', { type: () => Int }) userId: number): Promise< RemoveUserOutput > {
+    return await this.usersService.remove(userId);
   }
 }
