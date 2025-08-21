@@ -114,9 +114,9 @@ input CreateVoteInput {
 }
 
 input UpdateVoteInput {
-  userId: Int
-  optionId: Int
-  id: Int!
+  userId: Int!
+  optionId: Int!
+  voteId: Int!
 }
 
 type Subscription {

@@ -4,5 +4,11 @@ import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 @InputType()
 export class UpdateVoteInput extends PartialType(CreateVoteInput) {
   @Field(() => Int)
-  id: number;
+  voteId: number;
+
+  @Field(() => Int)
+  userId: number;
+
+  @Field(() => Int)
+  optionId: number;
 }

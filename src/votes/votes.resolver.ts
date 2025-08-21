@@ -25,7 +25,7 @@ export class VotesResolver {
 
   @Mutation(() => Vote)
   updateVote(@Args('updateVoteInput') updateVoteInput: UpdateVoteInput) {
-    return this.votesService.update(updateVoteInput.id, updateVoteInput);
+    return this.votesService.update(updateVoteInput.voteId, updateVoteInput);
   }
 
   @Mutation(() => Vote)
