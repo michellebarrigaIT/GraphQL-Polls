@@ -13,7 +13,7 @@ export class UsersService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  create(createUserInput: CreateUserInput) {
+  create(createUserInput: CreateUserInput): Promise<User>  {
     const user = this.usersRepository.create(createUserInput);
     return this.usersRepository.save(user);
   }
