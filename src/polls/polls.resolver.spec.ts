@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PollsResolver } from './polls.resolver';
 import { PollsService } from './polls.service';
 import { CreatePollInput } from './dto/create-poll.input';
+import { OptionsService } from 'src/options/options.service';
 
 describe('PollsResolver', () => {
   let resolver: PollsResolver;
@@ -29,6 +30,10 @@ describe('PollsResolver', () => {
         },
         {
           provide: 'PUB_SUB',
+          useValue: {},
+        },
+        {
+          provide: OptionsService,
           useValue: {},
         },
       ],
@@ -147,6 +152,20 @@ describe('PollsResolver', () => {
         throw new Error('Poll not found');
       });
       expect(await resolver.findOne(1)).toBe(result);
+    });
+  });
+
+  describe('subscribeToPolls', () => {
+    it('should return an async iterator for polls', async () => {
+      const mockAsyncIterator = {
+        next: jest.fn().mockResolvedValue({ value: { pollId: 1 }, done: false }),
+        return: jest.fn(),
+        throw: jest.fn(),
+      };
+
+      jest.spyOn(resolver, 'onVote').mockReturnValue(mockAsyncIterator as any);
+      const iterator = resolver.onVote(1);
+      expect(await iterator.next()).toEqual({ value: { pollId: 1 }, done: false });
     });
   });
 });
