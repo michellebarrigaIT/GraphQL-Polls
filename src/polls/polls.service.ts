@@ -58,7 +58,6 @@ export class PollsService {
       throw new Error(`Poll with ID ${pollId} not found`);
     }
 
-    // Agregar conteo de votos por opción
     const optionsWithVotes = poll.options.map(option => ({
       ...option,
       votesCount: option.votes.length,

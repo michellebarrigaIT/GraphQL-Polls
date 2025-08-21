@@ -14,8 +14,6 @@ export class OptionsService {
   ) {}
 
   create(createOptionInput: CreateOptionInput) {
-    // Remove or transform 'votes' if it's a number, as Option expects an array/object
-    //const { votes, ...rest } = createOptionInput;
     const option = this.optionsRepository.create(createOptionInput);
     return this.optionsRepository.save(option);
   }

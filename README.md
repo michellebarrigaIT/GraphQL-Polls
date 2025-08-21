@@ -125,3 +125,58 @@ type Subscription {
 ## API Docs
 - Provide GraphQL schema documentation using tools like Apollo Sandbox, GraphiQL, or GraphQL Playground.
 
+## Solution
+### Queries
+- Get all polls.
+```typescript
+query {
+  polls {
+  	title
+    options{
+      text
+    }
+  }
+}
+```
+- Get a poll by id with its options and votes count.
+```typescript
+query {
+  poll(pollId: 2) {
+    title
+    options {
+      text
+      votesCount
+    }
+  }
+}
+```
+
+- Get user info by id with the polls that he created and votes he made.
+```typescript
+query {
+  user(id: 2) {
+    userId
+    username
+    email
+    createdAt
+   
+    polls {
+      pollId
+      title
+    }
+    
+    votes {
+      voteId
+      option {
+        optionId
+        text
+        poll {
+          pollId
+          title
+        }
+      }
+    }
+  }
+}
+```
+
