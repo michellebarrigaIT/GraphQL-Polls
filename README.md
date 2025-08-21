@@ -222,8 +222,8 @@ mutation {
 ```typescript
 mutation {
   createVote(createVoteInput:{
-    userId: 2
-    optionId: 4
+    userId: 4
+    optionId: 6
   }){
     user{
       username
@@ -239,10 +239,12 @@ mutation {
 - Subscribe to vote updates on a poll.
 ```typescript
 subscription {
-  onVote(pollId: 1) {
+  onVote(pollId: 4) {
     pollId
-    optionId
-    votesCount
+    options{
+      optionId
+      votesCount
+    }
   }
 }
 ```
