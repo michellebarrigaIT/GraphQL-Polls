@@ -62,7 +62,6 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
-  createOption(createOptionInput: CreateOptionInput!): Option!
   updateOption(updateOptionInput: UpdateOptionInput!): Option!
   removeOption(id: Int!): Option!
   createPoll(createPollInput: CreatePollInput!): Poll!
@@ -84,10 +83,6 @@ input UpdateUserInput {
   userId: Int!
 }
 
-input CreateOptionInput {
-  text: String!
-}
-
 input UpdateOptionInput {
   text: String
   id: Int!
@@ -98,6 +93,10 @@ input CreatePollInput {
   description: String
   userId: Int!
   options: [CreateOptionInput!]!
+}
+
+input CreateOptionInput {
+  text: String!
 }
 
 input UpdatePollInput {

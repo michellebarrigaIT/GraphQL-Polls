@@ -5,8 +5,12 @@ import { Poll } from './entities/poll.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Option } from '../options/entities/option.entity';
 import { pubSub } from '../pubsub.provider';
+import { OptionsModule } from 'src/options/options.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Poll, Option])],
+  imports: [
+    TypeOrmModule.forFeature([Poll, Option]),
+    OptionsModule,
+  ],
   providers: [
     PollsResolver, 
     PollsService,

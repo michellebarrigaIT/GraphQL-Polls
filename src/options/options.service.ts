@@ -4,6 +4,7 @@ import { UpdateOptionInput } from './dto/update-option.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Option } from './entities/option.entity';
+import { Poll } from 'src/polls/entities/poll.entity';
 
 @Injectable()
 export class OptionsService {
@@ -13,9 +14,17 @@ export class OptionsService {
     private readonly optionsRepository: Repository<Option>,
   ) {}
 
-  create(createOptionInput: CreateOptionInput) {
-    const option = this.optionsRepository.create(createOptionInput);
-    return this.optionsRepository.save(option);
+  async create(listOptions: CreateOptionInput[], savedPoll: Poll) {
+    const options = listOptions.map((opt) =>
+      this.optionsRepository.create({
+        text: opt.text,
+        poll: savedPoll,
+      }),
+    );
+
+    savedPoll.options = await this.optionsRepository.save(options);
+
+    return savedPoll.options;
   }
 
   findAll() {

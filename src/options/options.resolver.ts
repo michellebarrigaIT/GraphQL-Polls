@@ -3,15 +3,19 @@ import { OptionsService } from './options.service';
 import { Option } from './entities/option.entity';
 import { CreateOptionInput } from './dto/create-option.input';
 import { UpdateOptionInput } from './dto/update-option.input';
+import { Poll } from 'src/polls/entities/poll.entity';
 
 @Resolver(() => Option)
 export class OptionsResolver {
   constructor(private readonly optionsService: OptionsService) {}
 
-  @Mutation(() => Option)
-  createOption(@Args('createOptionInput') createOptionInput: CreateOptionInput) {
-    return this.optionsService.create(createOptionInput);
-  }
+  // @Mutation(() => [Option])
+  // createOption(
+  //   @Args('createOptionInputs', { type: () => [CreateOptionInput] }) createOptionInputs: CreateOptionInput[],
+  //   @Args('poll', { type: () => Poll }) poll: Poll,
+  // ) {
+  //   return this.optionsService.create(createOptionInputs, poll);
+  // }
 
   @Query(() => [Option], { name: 'options' })
   findAll() {

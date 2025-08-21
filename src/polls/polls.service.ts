@@ -6,6 +6,7 @@ import { Poll } from './entities/poll.entity';
 import { Repository } from 'typeorm';
 import { Option } from '../options/entities/option.entity';
 import { User } from 'src/users/entities/user.entity';
+import { OptionsService } from 'src/options/options.service';
 
 @Injectable()
 export class PollsService {
@@ -13,8 +14,9 @@ export class PollsService {
   constructor(
     @InjectRepository(Poll)
     private readonly pollsRepository: Repository<Poll>,
-     @InjectRepository(Option)
+    @InjectRepository(Option)
     private readonly optionsRepository: Repository<Option>,
+    private readonly optionService: OptionsService,
   ) {}
 
   async create(createPollInput: CreatePollInput) {
@@ -30,14 +32,12 @@ export class PollsService {
 
     const savedPoll = await this.pollsRepository.save(poll);
 
-    const options = createPollInput.options.map((opt) =>
-      this.optionsRepository.create({
-        text: opt.text,
-        poll: savedPoll,
-      }),
+    const savedOptions = await this.optionService.create(
+      createPollInput.options,
+      savedPoll,
     );
 
-    savedPoll.options = await this.optionsRepository.save(options);
+    savedPoll.options = savedOptions;
 
     return savedPoll;
   }
