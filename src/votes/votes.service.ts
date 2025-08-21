@@ -17,7 +17,7 @@ export class VotesService {
     @Inject('PUB_SUB') private pubSub: PubSub,
   ) {}
 
-  async create(createVoteInput: CreateVoteInput) {
+  async create(createVoteInput: CreateVoteInput): Promise<Vote> {
     const existingVote = await this.checkIfUserHasVotedInPoll(createVoteInput.userId, createVoteInput.optionId);
 
     let vote: Vote;
