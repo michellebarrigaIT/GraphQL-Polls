@@ -237,5 +237,13 @@ mutation {
 
 ### Subscriptions
 - Subscribe to vote updates on a poll.
-
+```typescript
+subscription {
+  onVote(pollId: 1) {
+    pollId
+    optionId
+    votesCount
+  }
+}
+```
 - Subscription should return updated vote counts in real time.
