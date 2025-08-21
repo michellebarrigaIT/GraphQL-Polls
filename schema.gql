@@ -46,6 +46,10 @@ type RemoveUserOutput {
 
 type PollUpdate {
   pollId: Int!
+  options: [OptionVotes!]!
+}
+
+type OptionVotes {
   optionId: Int!
   votesCount: Int!
 }

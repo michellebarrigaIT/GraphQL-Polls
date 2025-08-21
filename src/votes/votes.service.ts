@@ -35,18 +35,24 @@ export class VotesService {
 
     const voteWithRelations = await this.votesRepository.findOne({
       where: { voteId: vote.voteId },
-      relations: ['user', 'option', 'option.poll', 'option.votes'],
+      relations: ['user', 'option', 'option.poll', 'option.votes', 'option.poll.options.votes'],
     });
     if (!voteWithRelations) {
       throw new Error(`Vote with ID ${vote.voteId} not found`);
     }
 
-    this.pubSub.publish('voteAdded', { 
-      onVote: { 
-        pollId: voteWithRelations.option.poll.pollId,
-        optionId: voteWithRelations.option.optionId,
-        votesCount: voteWithRelations.option.votes.length,
-      }
+    const poll = voteWithRelations.option.poll;
+
+    const optionsWithVotes = poll.options.map((opt) => ({
+      optionId: opt.optionId,
+      votesCount: opt.votes.length,
+    }));
+
+    this.pubSub.publish('voteAdded', {
+      onVote: {
+        pollId: poll.pollId,
+        options: optionsWithVotes,
+      },
     });
 
     return voteWithRelations;
