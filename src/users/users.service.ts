@@ -1,0 +1,64 @@
+import { Injectable } from '@nestjs/common';
+import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+
+@Injectable()
+export class UsersService {
+  
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
+
+  create(createUserInput: CreateUserInput): Promise<User>  {
+    const user = this.usersRepository.create(createUserInput);
+    return this.usersRepository.save(user);
+  }
+
+  findAll() {
+    return this.usersRepository.find();
+  }
+
+  async findOne(userId: number): Promise<User> {
+    const user = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.polls', 'createdPolls')
+      .leftJoinAndSelect('user.votes', 'vote')
+      .leftJoinAndSelect('vote.option', 'option')
+      .leftJoinAndSelect('option.poll', 'votedPoll')
+      .where('user.userId = :userId', { userId })
+      .getOne();
+
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+
+    return user;
+  }
+
+  async update(userId: number, updateUserInput: UpdateUserInput) {
+    await this.usersRepository.update({userId}, updateUserInput);
+
+    const updatedUser = await this.usersRepository.findOne({ where: { userId } });
+
+    if (!updatedUser) {
+      throw new Error(`User with id ${userId} not found`);
+    }
+
+    return updatedUser;
+  }
+
+  async remove(userId: number): Promise<{ message: string }> {
+    const user =  await this.usersRepository.findOne({ where: { userId } });
+    console.log(user);
+    if (!user) {
+      throw new Error(`User with id ${userId} not found`);
+    } else {
+      this.usersRepository.delete(userId);
+      return { message: `User with id ${userId} successfully deleted` };
+    }
+  }
+}

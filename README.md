@@ -125,3 +125,127 @@ type Subscription {
 ## API Docs
 - Provide GraphQL schema documentation using tools like Apollo Sandbox, GraphiQL, or GraphQL Playground.
 
+## Solution
+### Queries
+- Get all polls.
+```typescript
+query {
+  polls {
+  	title
+    options{
+      text
+    }
+  }
+}
+```
+- Get a poll by id with its options and votes count.
+```typescript
+query {
+  poll(pollId: 2) {
+    title
+    options {
+      text
+      votesCount
+    }
+  }
+}
+```
+
+- Get user info by id with the polls that he created and votes he made.
+```typescript
+query {
+  user(id: 2) {
+    userId
+    username
+    email
+    createdAt
+   
+    polls {
+      pollId
+      title
+    }
+    
+    votes {
+      voteId
+      option {
+        optionId
+        text
+        poll {
+          pollId
+          title
+        }
+      }
+    }
+  }
+}
+```
+### Mutations
+- Create a new user.
+```typescript
+mutation{
+  createUser(createUserInput:{
+    username: "michelle"
+    email: "michelle@gmail.com"
+  }){
+    userId
+    username
+  }
+}
+```
+
+- Create a new poll with options.
+```typescript
+mutation {
+  createPoll(createPollInput: {
+    userId: 1
+    title: "¿Cuál es tu color favorito?"
+    description: "Encuesta sobre colores"
+    options: [
+      { text: "Rojo" }
+      { text: "Verde" }
+      { text: "Amarillo" }
+      { text: "Azul" }
+      { text: "Negro" }
+    ]
+  }) {
+    pollId
+    title
+    options {
+      optionId
+      text
+    }
+  }
+}
+```
+
+- Vote for an option in a poll (only once per poll per user).
+```typescript
+mutation {
+  createVote(createVoteInput:{
+    userId: 4
+    optionId: 6
+  }){
+    user{
+      username
+    }
+    option{
+      text
+    }
+  }
+}
+```
+
+### Subscriptions
+- Subscribe to vote updates on a poll.
+```typescript
+subscription {
+  onVote(pollId: 4) {
+    pollId
+    options{
+      optionId
+      votesCount
+    }
+  }
+}
+```
+- Subscription should return updated vote counts in real time.
